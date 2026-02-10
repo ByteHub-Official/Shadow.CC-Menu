@@ -13,8 +13,6 @@ function Luxt1.CreateWindow(libName, logoId)
     local UIListLayout = Instance.new("UIListLayout")
     local usename = Instance.new("TextLabel")
     local MainCorner_3 = Instance.new("UICorner")
-    local wave = Instance.new("ImageLabel")
-    local MainCorner_4 = Instance.new("UICorner")
     local framesAll = Instance.new("Frame")
     local pageFolder = Instance.new("Folder")
     local key1 = Instance.new("TextButton")
@@ -152,6 +150,11 @@ function Luxt1.CreateWindow(libName, logoId)
     UIListLayout.Parent = tabFrame
     UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
     UIListLayout.Padding = UDim.new(0, 5)
+    local function updateTabCanvasSize()
+        tabFrame.CanvasSize = UDim2.new(0, 0, 0, math.max(0, UIListLayout.AbsoluteContentSize.Y + UIListLayout.Padding.Offset))
+    end
+    UIListLayout:GetPropertyChangedSignal("AbsoluteContentSize"):Connect(updateTabCanvasSize)
+    local tabCount = 0
     usename.Name = "usename"
     usename.Parent = sideHeading
     usename.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -168,19 +171,6 @@ function Luxt1.CreateWindow(libName, logoId)
     MainCorner_3.CornerRadius = UDim.new(0, 5)
     MainCorner_3.Name = "MainCorner"
     MainCorner_3.Parent = MainFrame
-    wave.Name = "wave"
-    wave.Parent = MainFrame
-    wave.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
-    wave.BackgroundTransparency = 1.000
-    wave.Position = UDim2.new(0.0213434305, 0, 0, 0)
-    wave.Size = UDim2.new(0.97865659, 0, 0.557522118, 0)
-    wave.Image = "http://www.roblox.com/asset/?id=6087537285"
-    wave.ImageColor3 = Color3.fromRGB(255, 180, 180)
-    wave.ImageTransparency = 0.300
-    wave.ScaleType = Enum.ScaleType.Slice
-    MainCorner_4.CornerRadius = UDim.new(0, 3)
-    MainCorner_4.Name = "MainCorner"
-    MainCorner_4.Parent = wave
     framesAll.Name = "framesAll"
     framesAll.Parent = MainFrame
     framesAll.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
@@ -207,7 +197,9 @@ function Luxt1.CreateWindow(libName, logoId)
         --
         tabText = tabText or "Tab"
         tabId = tabId or ""
+        tabCount = tabCount + 1
         tabBtnFrame.Name = "tabBtnFrame"
+        tabBtnFrame.LayoutOrder = tabCount
         tabBtnFrame.Parent = tabFrame
         tabBtnFrame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
         tabBtnFrame.BackgroundTransparency = 1.000
@@ -262,6 +254,7 @@ function Luxt1.CreateWindow(libName, logoId)
         UpdateSize()
         newPage.ChildAdded:Connect(UpdateSize)
         newPage.ChildRemoved:Connect(UpdateSize)
+        task.defer(updateTabCanvasSize)
         tabBtn.MouseButton1Click:Connect(function()
             UpdateSize()
             for i,v in next, pageFolder:GetChildren() do
