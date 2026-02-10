@@ -104,7 +104,7 @@ function ShadowCC.CreateWindow(libName, logoId)
     sideHeading.Parent = MainFrame
     sideHeading.BackgroundColor3 = Color3.fromRGB(21, 21, 21)
     sideHeading.Size = UDim2.new(0, 155, 0, 452)
-    sideHeading.ZIndex = 2
+    sideHeading.ZIndex = 3
     MainCorner.CornerRadius = UDim.new(0, 5)
     MainCorner.Name = "MainCorner"
     MainCorner.Parent = sideHeading
