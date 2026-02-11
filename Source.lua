@@ -147,6 +147,9 @@ function ShadowCC.CreateWindow(libName, logoId)
     tabFrame.Size = UDim2.new(0, 135, 0, 347)
     tabFrame.ZIndex = 2
     tabFrame.ScrollBarThickness = 0
+    tabFrame.AutomaticCanvasSize = Enum.AutomaticSize.Y
+    tabFrame.CanvasSize = UDim2.new(0, 0, 0, 0)
+    tabFrame.ScrollingDirection = Enum.ScrollingDirection.Y
     UIListLayout.Parent = tabFrame
     UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
     UIListLayout.Padding = UDim.new(0, 5)
