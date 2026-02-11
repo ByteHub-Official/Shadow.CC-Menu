@@ -207,13 +207,13 @@ function ShadowCC.CreateWindow(libName, logoId)
         end
     end)
 
-    -- Content area
+    -- Content area (right panel - must sit above main so sections are visible)
     local content = Instance.new("Frame")
     content.Name = "framesAll"
     content.Size = UDim2.new(0, 381, 0, 431)
     content.Position = UDim2.new(0.297, 0, 0.024, 0)
     content.BackgroundTransparency = 1
-    content.ZIndex = 2
+    content.ZIndex = 3
     content.Parent = main
 
     local pageFolder = Instance.new("Folder")
@@ -267,7 +267,8 @@ function ShadowCC.CreateWindow(libName, logoId)
         page.BorderSizePixel = 0
         page.ScrollBarThickness = 0
         page.Visible = false
-        page.ZIndex = 2
+        page.ZIndex = 3
+        page.AutomaticCanvasSize = Enum.AutomaticSize.Y
         page.Parent = pageFolder
 
         local sectionList = Instance.new("UIListLayout")
@@ -325,7 +326,7 @@ function ShadowCC.CreateWindow(libName, logoId)
             sectionFrame.Size = UDim2.new(1, 0, 0, 36)
             sectionFrame.BackgroundColor3 = DARK
             sectionFrame.ClipsDescendants = true
-            sectionFrame.ZIndex = 2
+            sectionFrame.ZIndex = 3
             sectionFrame.Parent = page
             addCorner(sectionFrame, 5)
             addGradient(sectionFrame, Color3.fromRGB(40, 12, 12), Color3.fromRGB(20, 20, 20))
@@ -339,6 +340,7 @@ function ShadowCC.CreateWindow(libName, logoId)
             local header = Instance.new("Frame")
             header.Size = UDim2.new(0, 381, 0, 36)
             header.BackgroundTransparency = 1
+            header.LayoutOrder = 0
             header.Parent = sectionFrame
 
             local sectionName = Instance.new("TextLabel")
@@ -350,7 +352,7 @@ function ShadowCC.CreateWindow(libName, logoId)
             sectionName.TextSize = 14
             sectionName.Font = Enum.Font.GothamSemibold
             sectionName.TextXAlignment = Enum.TextXAlignment.Left
-            sectionName.ZIndex = 2
+            sectionName.ZIndex = 3
             sectionName.Parent = header
 
             local expandBtn = Instance.new("ImageButton")
@@ -361,7 +363,7 @@ function ShadowCC.CreateWindow(libName, logoId)
             expandBtn.ImageColor3 = RED
             expandBtn.ImageRectOffset = Vector2.new(564, 284)
             expandBtn.ImageRectSize = Vector2.new(36, 36)
-            expandBtn.ZIndex = 2
+            expandBtn.ZIndex = 3
             expandBtn.Parent = header
 
             local isDropped = false
@@ -378,6 +380,7 @@ function ShadowCC.CreateWindow(libName, logoId)
                 task.defer(updatePageSize)
             end)
 
+            local itemOrder = 1
             local ItemHandling = {}
 
             function ItemHandling:Button(btnText, callback)
@@ -385,13 +388,15 @@ function ShadowCC.CreateWindow(libName, logoId)
                 callback = callback or function() end
                 local btn = Instance.new("TextButton")
                 btn.Size = UDim2.new(0, 365, 0, 36)
+                btn.LayoutOrder = itemOrder
+                itemOrder = itemOrder + 1
                 btn.BackgroundColor3 = BLACK
                 btn.Text = btnText
                 btn.TextColor3 = TEXT
                 btn.TextSize = 14
                 btn.Font = Enum.Font.GothamSemibold
                 btn.AutoButtonColor = false
-                btn.ZIndex = 2
+                btn.ZIndex = 3
                 btn.Parent = sectionFrame
                 addCorner(btn, 3)
                 btn.MouseButton1Click:Connect(function()
@@ -416,8 +421,10 @@ function ShadowCC.CreateWindow(libName, logoId)
                 callback = callback or function() end
                 local frame = Instance.new("Frame")
                 frame.Size = UDim2.new(0, 365, 0, 36)
+                frame.LayoutOrder = itemOrder
+                itemOrder = itemOrder + 1
                 frame.BackgroundColor3 = BLACK
-                frame.ZIndex = 2
+                frame.ZIndex = 3
                 frame.Parent = sectionFrame
                 addCorner(frame, 3)
                 local check = Instance.new("ImageButton")
@@ -428,7 +435,7 @@ function ShadowCC.CreateWindow(libName, logoId)
                 check.ImageColor3 = TEXT_DIM
                 check.ImageRectOffset = Vector2.new(940, 784)
                 check.ImageRectSize = Vector2.new(48, 48)
-                check.ZIndex = 2
+                check.ZIndex = 3
                 check.Parent = frame
                 local lbl = Instance.new("TextLabel")
                 lbl.Size = UDim2.new(0.7, 0, 1, 0)
@@ -439,7 +446,7 @@ function ShadowCC.CreateWindow(libName, logoId)
                 lbl.TextSize = 14
                 lbl.Font = Enum.Font.GothamSemibold
                 lbl.TextXAlignment = Enum.TextXAlignment.Left
-                lbl.ZIndex = 2
+                lbl.ZIndex = 3
                 lbl.Parent = frame
                 local on = false
                 check.MouseButton1Click:Connect(function()
@@ -463,8 +470,10 @@ function ShadowCC.CreateWindow(libName, logoId)
                 local currentKey = (firstKey and firstKey.Name) or "None"
                 local frame = Instance.new("Frame")
                 frame.Size = UDim2.new(0, 365, 0, 36)
+                frame.LayoutOrder = itemOrder
+                itemOrder = itemOrder + 1
                 frame.BackgroundColor3 = BLACK
-                frame.ZIndex = 2
+                frame.ZIndex = 3
                 frame.Parent = sectionFrame
                 addCorner(frame, 3)
                 local keyBtn = Instance.new("TextButton")
@@ -475,7 +484,7 @@ function ShadowCC.CreateWindow(libName, logoId)
                 keyBtn.TextColor3 = RED
                 keyBtn.TextSize = 14
                 keyBtn.Font = Enum.Font.GothamSemibold
-                keyBtn.ZIndex = 2
+                keyBtn.ZIndex = 3
                 keyBtn.Parent = frame
                 addCorner(keyBtn, 5)
                 local keyLbl = Instance.new("TextLabel")
@@ -487,7 +496,7 @@ function ShadowCC.CreateWindow(libName, logoId)
                 keyLbl.TextSize = 13
                 keyLbl.Font = Enum.Font.GothamSemibold
                 keyLbl.TextXAlignment = Enum.TextXAlignment.Left
-                keyLbl.ZIndex = 2
+                keyLbl.ZIndex = 3
                 keyLbl.Parent = frame
                 keyBtn.MouseButton1Click:Connect(function()
                     keyBtn.Text = "..."
@@ -508,6 +517,8 @@ function ShadowCC.CreateWindow(libName, logoId)
                 callback = callback or function() end
                 local frame = Instance.new("Frame")
                 frame.Size = UDim2.new(0, 365, 0, 36)
+                frame.LayoutOrder = itemOrder
+                itemOrder = itemOrder + 1
                 frame.BackgroundColor3 = BLACK
                 frame.ZIndex = 2
                 frame.Parent = sectionFrame
@@ -534,7 +545,7 @@ function ShadowCC.CreateWindow(libName, logoId)
                 box.TextSize = 13
                 box.Font = Enum.Font.GothamSemibold
                 box.ClearTextOnFocus = false
-                box.ZIndex = 2
+                box.ZIndex = 3
                 box.Parent = frame
                 addCorner(box, 5)
                 box.FocusLost:Connect(function(enter)
@@ -549,8 +560,10 @@ function ShadowCC.CreateWindow(libName, logoId)
                 callback = callback or function() end
                 local frame = Instance.new("Frame")
                 frame.Size = UDim2.new(0, 365, 0, 36)
+                frame.LayoutOrder = itemOrder
+                itemOrder = itemOrder + 1
                 frame.BackgroundColor3 = BLACK
-                frame.ZIndex = 2
+                frame.ZIndex = 3
                 frame.Parent = sectionFrame
                 addCorner(frame, 3)
                 local track = Instance.new("TextButton")
@@ -559,13 +572,13 @@ function ShadowCC.CreateWindow(libName, logoId)
                 track.BackgroundColor3 = DARK2
                 track.Text = ""
                 track.AutoButtonColor = false
-                track.ZIndex = 2
+                track.ZIndex = 3
                 track.Parent = frame
                 addCorner(track, 3)
                 local fill = Instance.new("Frame")
                 fill.Size = UDim2.new(0, 0, 0, 6)
                 fill.BackgroundColor3 = RED
-                fill.ZIndex = 2
+                fill.ZIndex = 3
                 fill.Parent = track
                 addCorner(fill, 3)
                 local lbl = Instance.new("TextLabel")
@@ -577,12 +590,13 @@ function ShadowCC.CreateWindow(libName, logoId)
                 lbl.TextSize = 14
                 lbl.Font = Enum.Font.GothamSemibold
                 lbl.TextXAlignment = Enum.TextXAlignment.Left
-                lbl.ZIndex = 2
+                lbl.ZIndex = 3
                 lbl.Parent = frame
                 local mouse = game.Players.LocalPlayer:GetMouse()
                 local uis = UserInputService
                 local value = minvalue
                 local moveConn, releaseConn
+                pcall(function() callback(minvalue) end)
                 track.MouseButton1Down:Connect(function()
                     value = math.clamp(math.floor((maxvalue - minvalue) / 150 * fill.AbsoluteSize.X + minvalue), minvalue, maxvalue)
                     callback(value)
@@ -605,12 +619,14 @@ function ShadowCC.CreateWindow(libName, logoId)
                 labelInfo = labelInfo or "Label"
                 local lbl = Instance.new("TextLabel")
                 lbl.Size = UDim2.new(0, 365, 0, 36)
+                lbl.LayoutOrder = itemOrder
+                itemOrder = itemOrder + 1
                 lbl.BackgroundColor3 = BLACK
                 lbl.Text = labelInfo
                 lbl.TextColor3 = WHITE
                 lbl.TextSize = 14
                 lbl.Font = Enum.Font.GothamSemibold
-                lbl.ZIndex = 2
+                lbl.ZIndex = 3
                 lbl.Parent = sectionFrame
                 addCorner(lbl, 5)
             end
@@ -626,9 +642,11 @@ function ShadowCC.CreateWindow(libName, logoId)
                 local isDropped1 = false
                 local dropFrame = Instance.new("Frame")
                 dropFrame.Size = UDim2.new(0, 365, 0, 36)
+                dropFrame.LayoutOrder = itemOrder
+                itemOrder = itemOrder + 1
                 dropFrame.ClipsDescendants = true
                 dropFrame.BackgroundTransparency = 1
-                dropFrame.ZIndex = 2
+                dropFrame.ZIndex = 3
                 dropFrame.Parent = sectionFrame
                 local dropLayout = Instance.new("UIListLayout")
                 dropLayout.SortOrder = Enum.SortOrder.LayoutOrder
@@ -636,8 +654,9 @@ function ShadowCC.CreateWindow(libName, logoId)
                 dropLayout.Parent = dropFrame
                 local mainDrop = Instance.new("Frame")
                 mainDrop.Size = UDim2.new(0, 365, 0, 36)
+                mainDrop.LayoutOrder = 0
                 mainDrop.BackgroundColor3 = BLACK
-                mainDrop.ZIndex = 2
+                mainDrop.ZIndex = 3
                 mainDrop.Parent = dropFrame
                 addCorner(mainDrop, 3)
                 local dropLbl = Instance.new("TextLabel")
@@ -649,7 +668,7 @@ function ShadowCC.CreateWindow(libName, logoId)
                 dropLbl.TextSize = 14
                 dropLbl.Font = Enum.Font.GothamSemibold
                 dropLbl.TextXAlignment = Enum.TextXAlignment.Left
-                dropLbl.ZIndex = 2
+                dropLbl.ZIndex = 3
                 dropLbl.Parent = mainDrop
                 local expand = Instance.new("ImageButton")
                 expand.Size = UDim2.new(0, 25, 0, 25)
@@ -659,7 +678,7 @@ function ShadowCC.CreateWindow(libName, logoId)
                 expand.ImageColor3 = RED
                 expand.ImageRectOffset = Vector2.new(564, 284)
                 expand.ImageRectSize = Vector2.new(36, 36)
-                expand.ZIndex = 2
+                expand.ZIndex = 3
                 expand.Parent = mainDrop
                 local dropYSize = 36
                 expand.MouseButton1Click:Connect(function()
@@ -689,7 +708,7 @@ function ShadowCC.CreateWindow(libName, logoId)
                     optBtn.Font = Enum.Font.GothamSemibold
                     optBtn.TextXAlignment = Enum.TextXAlignment.Left
                     optBtn.AutoButtonColor = false
-                    optBtn.ZIndex = 2
+                    optBtn.ZIndex = 3
                     optBtn.Parent = optFrame
                     addCorner(optBtn, 3)
                     dropYSize = dropYSize + 37
